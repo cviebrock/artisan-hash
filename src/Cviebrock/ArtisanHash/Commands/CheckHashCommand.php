@@ -26,31 +26,32 @@ class CheckHashCommand extends BaseCommand {
 	public function fire()
 	{
 
-		$hash = $this->argument('hash');
-
-		if (!$string = $this->argument('string'))
+		$hash = $this->argument('hash') ?: $this->secret('Enter the hash:', null);
+		if (!$hash)
 		{
-			$string = $this->secret('Enter the plaintext string to check:', null);
+			$this->error('No hash given.');
+			return;
 		}
 
+
+		$string = $this->argument('string') ?: $this->secret('Enter the plaintext string to check:', null);
 		if (!$string)
 		{
 			$this->error('No string given.');
+			return;
 		}
-		else
-		{
-			if ( $this->hasher->check($string, $hash) )
-			{
-				$this->info('Hash matches.');
-				if ( $this->hasher->needsRehash($hash) )
-				{
-					$this->info('Your hash needs to be rehashed.');
-				}
-			}
-			else {
-				$this->error('Hash does not match.');
-			}
 
+		if ( !$this->hasher->check($string, $hash) )
+		{
+			$this->error('Hash does not match.');
+			return;
+		}
+
+
+		$this->info('Hash matches.');
+		if ( $this->hasher->needsRehash($hash) )
+		{
+			$this->info('Your hash needs to be rehashed.');
 		}
 
 	}
@@ -63,7 +64,7 @@ class CheckHashCommand extends BaseCommand {
 	protected function getArguments()
 	{
 		return array(
-			array('hash',   InputArgument::REQUIRED, 'The hash to check against.'),
+			array('hash',   InputArgument::OPTIONAL, 'The hash to check against.'),
 			array('string', InputArgument::OPTIONAL, 'The plaintext string to check.'),
 		);
 	}
