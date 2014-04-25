@@ -9,7 +9,7 @@ Adds Artisan tasks to Laravel to work with password hashes from the CLI.
 * [Usage](#usage)
 * [Bugs, Suggestions and Contributions](#bugs)
 * [Copyright and License](#copyright)
-* 
+
 
 
 <a name="installation"></a>
@@ -61,7 +61,7 @@ $2y$08$3nq5mD1faNAPUdyt72yyqOTRl/OIrizhQ84EnH1kbouC/8ud31smW
 
 ### hash:check
 
-This will compare a given hash to a plaintext string and see if they match.  It will also check if the hash needs rehashing.
+This will compare a given hash to a plaintext string and see if they match.
 
 ```sh
 $ php artisan hash:check '$2y$08$3nq5mD1faNAPUdyt72yyqOTRl/OIrizhQ84EnH1kbouC/8ud31smW' foo
@@ -69,6 +69,14 @@ Hash matches.
 ```
 
 > Note that if the hash contains dollar signs -- as it likely will -- you will need to escape them in your shell.  The easiest way is just to surround the hash in single quotes, or don't provide the hash via the command and use the prompt.
+
+The command will also check if the hash needs rehashing.
+
+```sh
+$ php artisan hash:check '$1$stCkrNrE$W92vGH25VHnLK.kDBmZwz0' foo
+Hash matches.
+Your hash needs to be rehashed.
+```
 
 
 
