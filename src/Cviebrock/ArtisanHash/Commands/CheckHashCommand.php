@@ -41,15 +41,14 @@ class CheckHashCommand extends BaseCommand {
 		{
 			if ( $this->hasher->check($string, $hash) )
 			{
-				$this->info('Hashes match.');
+				$this->info('Hash matches.');
+				if ( $this->hasher->needsRehash($hash) )
+				{
+					$this->info('Your hash needs to be rehashed.');
+				}
 			}
 			else {
-				$this->error('Hashes do not match.');
-			}
-
-			if ( $this->hasher->needsRehash($hash) )
-			{
-				$this->info('Your hash needs to be rehashed.');
+				$this->error('Hash does not match.');
 			}
 
 		}

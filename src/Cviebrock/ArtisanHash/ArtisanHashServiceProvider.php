@@ -2,6 +2,7 @@
 
 use Illuminate\Support\ServiceProvider;
 use Cviebrock\ArtisanHash\Commands\MakeHashCommand;
+use Cviebrock\ArtisanHash\Commands\CheckHashCommand;
 
 class ArtisanHashServiceProvider extends ServiceProvider {
 
@@ -31,6 +32,7 @@ class ArtisanHashServiceProvider extends ServiceProvider {
 
 		foreach(array(
 			'MakeHash',
+			'CheckHash',
 		) as $command)
 		{
 			$this->{"register$command"}();
@@ -42,12 +44,25 @@ class ArtisanHashServiceProvider extends ServiceProvider {
 	 */
 	protected function registerMakeHash()
 	{
-		$this->app['artisanhash.make'] = $this->app->share(function($app)
+		$this->app['artisan-hash.make'] = $this->app->share(function($app)
 		{
 			return new MakeHashCommand;
 		});
 
-		$this->commands('artisanhash.make');
+		$this->commands('artisan-hash.make');
+	}
+
+	/**
+	 * Register the hash::check command
+	 */
+	protected function registerCheckHash()
+	{
+		$this->app['artisan-hash.check'] = $this->app->share(function($app)
+		{
+			return new CheckHashCommand;
+		});
+
+		$this->commands('artisan-hash.check');
 	}
 
 	/**
