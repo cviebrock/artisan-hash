@@ -1,10 +1,8 @@
 <?php namespace Cviebrock\ArtisanHash\Commands;
 
-use Illuminate\Console\Command;
 use Symfony\Component\Console\Input\InputArgument;
-use Illuminate\Hashing;
 
-class MakeHashCommand extends Command {
+class MakeHashCommand extends BaseCommand {
 
 	/**
 	 * The console command name.
@@ -18,7 +16,7 @@ class MakeHashCommand extends Command {
 	 *
 	 * @var string
 	 */
-	protected $description = 'Hash a given string';
+	protected $description = 'Hash a plaintext string';
 
 	/**
 	 * Execute the console command.
@@ -29,7 +27,7 @@ class MakeHashCommand extends Command {
 	{
 		if (!$string = $this->argument('string'))
 		{
-			$string = $this->secret('Enter the string to hash:', null);
+			$string = $this->secret('Enter the plaintext string to hash:', null);
 		}
 
 		if (!$string)
@@ -38,8 +36,7 @@ class MakeHashCommand extends Command {
 		}
 		else
 		{
-			$hash = App:make('hash')->make($string);
-			$this->info($hash);
+			$this->info( $this->hasher->make($string) );
 		}
 
 	}
@@ -52,7 +49,7 @@ class MakeHashCommand extends Command {
 	protected function getArguments()
 	{
 		return array(
-			array('string', InputArgument::OPTIONAL, 'The string to hash.'),
+			array('string', InputArgument::OPTIONAL, 'The plaintext string to hash.'),
 		);
 	}
 
