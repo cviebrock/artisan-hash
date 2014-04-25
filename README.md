@@ -20,7 +20,7 @@ First, add the package to the `require-dev` attribute of your `composer.json` fi
 ```json
 {
     "require": {
-        "cviebrock/artisan-hash": "dev-master"
+        "cviebrock/artisan-hash": "1.*"
     },
 }
 ```
