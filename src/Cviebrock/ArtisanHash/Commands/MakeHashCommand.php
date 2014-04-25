@@ -25,7 +25,7 @@ class MakeHashCommand extends BaseCommand {
 	 */
 	public function fire()
 	{
-		$string = $this->argument('string') ?: $this->secret('Enter the plaintext string to check:', null);
+		$string = $this->argument('string') ?: $this->secret('Enter the plaintext string to hash:', null);
 		if (!$string)
 		{
 			$this->error('No string given.');
